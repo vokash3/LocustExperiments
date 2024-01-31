@@ -4,6 +4,12 @@ import time
 import locust
 from locust import User, task, constant_pacing, LoadTestShape, run_single_user, FastHttpUser
 import locust_plugins
+from locust_plugins.listeners import jmeter
+
+
+@locust.events.init.add_listener
+def on_locust_init(environment, **kwargs):
+    jmeter.JmeterListener(env=environment, testplan="examplePlan")
 
 
 class QALoadUser(FastHttpUser):
